@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "craftmyprep-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,5 +9,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/pg": "^8.15.6",
+    "prisma": "^7.0.1"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.0.1",
+    "@prisma/client": "^7.0.1",
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3"
+  }
 }
