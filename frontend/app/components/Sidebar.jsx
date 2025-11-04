@@ -3,25 +3,48 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-// import { useSession, signOut } from "next-auth/react"; // Auth disabled temporarily
-
+import { useState ,useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { useRouter } from "next/navigation";
 export default function Sidebar() {
+
+
+     const router = useRouter();
     const pathname = usePathname();
-    // const { data: session } = useSession(); // Auth disabled
+
+     const { user, loading,logout } = useAuth();
+
+
+
+       useEffect(() => {
+             if (!loading && !user) {
+                 router.push("/login");
+             }
+         }, [user, loading, router]);
+     
+         if (loading) {
+             return (
+                 <div className="min-h-screen flex items-center justify-center bg-[#e8f4f8]">
+                     <p className="text-xl text-[#7ec4b6] font-semibold">Loading...</p>
+                 </div>
+             );
+         }
+     
+         if (!user) return null;
+
+
     const [isOpen, setIsOpen] = useState(false);
 
     const navItems = [
-        { icon: "🔍", label: "My Plans", href: "/dashboard" },
-        { icon: "🤖", label: "Generate Plan", href: "/generate" },
-        { icon: "🚀", label: "New Features", href: "/features" },
-        { icon: "🧪", label: "Test APIs", href: "/test-api" },
-        { icon: "📊", label: "Progress", href: "/progress" },
-        { icon: "📝", label: "Notes", href: "/notes" },
-        { icon: "🏆", label: "Leaderboard", href: "/leaderboard" },
-        { icon: "💡", label: "Company Insights", href: "/insights" },
-        { icon: "⚡", label: "Mini Projects", href: "/projects" },
-        { icon: "ℹ️", label: "About", href: "/about" },
+        { icon: "🔍", label: "Dashboard", href: "/dashboard" },
+        { icon: "🤖", label: "Generate Plan", href: "/dashboard/generate"},
+        { icon: "🚀", label: "Daily Challenge", href: "/dashboard/features" },
+        { icon: "🧪", label: "Resources", href: "/dashboard/test-api" },
+        { icon: "📊", label: "My plans ", href: "/dashboard/progress" },
+        { icon: "🏆", label: "Leaderboard", href: "/dashboard/leaderboard" },
+        { icon: "💡", label: "Company Insights", href: "/dashboard/insights" },
+        { icon: "⚡", label: "Mini Projects", href: "/dashboard/projects" },
+        { icon: "ℹ️", label: "Profile", href: "/dashboard/about" },
     ];
 
     return (
@@ -29,7 +52,7 @@ export default function Sidebar() {
             {/* Mobile & Tablet Menu Button - Hidden only on desktop (xl screens) */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="xl:hidden fixed top-4 left-4 z-[100] p-3 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:bg-white transition-all active:scale-95 touch-manipulation cursor-pointer"
+                className="xl:hidden fixed top-4 left-4  p-3 rounded-xl bg-white/90 backdrop-blur-md border border-white/80 shadow-lg hover:bg-white transition-all active:scale-95 touch-manipulation cursor-pointer"
                 type="button"
                 aria-label={isOpen ? "Close menu" : "Open menu"}
             >
@@ -58,7 +81,7 @@ export default function Sidebar() {
             {/* Sidebar - Always visible on desktop (xl), slide-in on mobile/tablet */}
             <aside
                 className={`${isOpen ? 'translate-x-0' : '-translate-x-full xl:translate-x-0'
-                    } fixed xl:sticky top-0 left-0 w-[280px] sm:w-72 max-w-[85vw] min-h-screen bg-gradient-to-b from-[#a8d5e2]/95 to-[#c7f0d8]/95 xl:from-[#a8d5e2]/30 xl:to-[#c7f0d8]/30 backdrop-blur-md border-r border-white/30 p-4 sm:p-6 pt-20 xl:pt-6 z-[45] overflow-y-auto transition-transform duration-300 ease-in-out shadow-2xl xl:shadow-none`}
+                    } fixed xl:sticky top-0 left-0 w-[280px] sm:w-72 max-w-[85vw] min-h-screen bg-linear-to-b from-[#a8d5e2]/95 to-[#c7f0d8]/95 xl:from-[#a8d5e2]/30 xl:to-[#c7f0d8]/30 backdrop-blur-md border-r border-white/30 p-4 sm:p-6 pt-20 xl:pt-6 z-45 overflow-y-auto transition-transform duration-300 ease-in-out shadow-2xl xl:shadow-none`}
             >
                 {/* Logo */}
                 <Link href="/" onClick={() => setIsOpen(false)}>
@@ -66,7 +89,7 @@ export default function Sidebar() {
                         whileHover={{ scale: 1.02 }}
                         className="mb-6 sm:mb-8 flex items-center gap-3 cursor-pointer"
                     >
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#7ec4b6] to-[#6eb4a6] flex items-center justify-center shadow-lg">
+                        <div className="w-10 h-10 rounded-xl bg-linear-to-br from-[#7ec4b6] to-[#6eb4a6] flex items-center justify-center shadow-lg">
                             <span className="text-xl">✨</span>
                         </div>
                         <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Craft My Prep</h1>
@@ -97,9 +120,9 @@ export default function Sidebar() {
                     })}
                 </nav>
 
-                {/* User Section - Disabled until next-auth is installed */}
-                {/* 
-        {session && (
+                
+                
+        {user &&  (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -107,42 +130,23 @@ export default function Sidebar() {
             className="mt-6 sm:mt-8 p-3 sm:p-4 bg-white/50 backdrop-blur-sm rounded-2xl"
           >
             <div className="flex items-center gap-2 sm:gap-3 mb-3">
-              <img 
-                src={session.user.image} 
-                alt={session.user.name}
-                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
-              />
+     
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-800 text-xs sm:text-sm truncate">{session.user.name}</p>
-                <p className="text-xs text-gray-600 truncate">{session.user.email}</p>
+                <p className="font-medium text-gray-800 text-xs sm:text-sm truncate">{user.name}</p>
+                <p className="text-xs text-gray-600 truncate">{user.email}</p>
               </div>
             </div>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => signOut()}
+              onClick={() => logout()}
               className="w-full px-3 py-2 text-xs sm:text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-all"
             >
               Sign Out
             </motion.button>
           </motion.div>
         )}
-        */}
-
-                {/* Mascot Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 }}
-                    className="mt-auto pt-6 sm:pt-8 pb-4"
-                >
-                    <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-3 sm:p-4 text-center">
-                        <div className="text-5xl sm:text-6xl mb-2">🤖</div>
-                        <p className="text-xs sm:text-sm text-gray-700 font-medium">
-                            Your AI buddy Vibe is here to help!
-                        </p>
-                    </div>
-                </motion.div>
+    
             </aside>
         </>
     );

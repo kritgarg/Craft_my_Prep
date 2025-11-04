@@ -18,7 +18,7 @@ export default function AuthInput({ label, type, value, onChange, placeholder, d
                 onChange={onChange}
                 placeholder={placeholder}
                 required
-                className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-[#7ec4b6] focus:outline-none bg-white/90 backdrop-blur-sm transition-all"
+                className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-[#7ec4b6] focus:outline-none bg-white/90 backdrop-blur-sm transition-all text-black"
             />
         </motion.div>
     );
