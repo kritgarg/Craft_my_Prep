@@ -28,7 +28,7 @@ export async function register(body) {
 
   // optionally auto-login: create token
   const token = signJwt({ id: user.id });
-  return { user: { id: user.id, email: user.email, name: user.name }, token };
+  return { user: { id: user.id, email: user.email, name: user.name },token};
 }
 
 const loginSchema = Joi.object({
@@ -49,3 +49,10 @@ export async function login(body) {
   const token = signJwt({ id: user.id });
   return { token, user: { id: user.id, email: user.email, name: user.name, avatar: user.avatar } };
 }
+
+export async function getMe(userId) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) return { error: "User not found" };
+  return { user };
+}
+

@@ -1,11 +1,14 @@
 import express from "express";
 import * as ctrl from "./auth.controller.js";
+import { requireAuth } from "../../middleware/auth.middleware.js";
 
 const router = express.Router();
 
 // prefix will be /api/auth when mounted
 router.post("/register", ctrl.register);
 router.post("/login", ctrl.login);
+
+router.get("/me", requireAuth, ctrl.getMe);
 
 // GitHub OAuth
 import passport from "passport";
