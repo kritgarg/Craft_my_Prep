@@ -3,41 +3,43 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState ,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
 export default function Sidebar() {
 
 
-     const router = useRouter();
+    const router = useRouter();
     const pathname = usePathname();
 
-     const { user, loading,logout } = useAuth();
+    const { user, loading, logout } = useAuth();
 
 
 
-       useEffect(() => {
-             if (!loading && !user) {
-                 router.push("/login");
-             }
-         }, [user, loading, router]);
-     
-         if (loading) {
-             return (
-                 <div className="min-h-screen flex items-center justify-center bg-[#e8f4f8]">
-                     <p className="text-xl text-[#7ec4b6] font-semibold">Loading...</p>
-                 </div>
-             );
-         }
-     
-         if (!user) return null;
+    /*
+    useEffect(() => {
+          if (!loading && !user) {
+              router.push("/login");
+          }
+      }, [user, loading, router]);
+    */
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#e8f4f8]">
+                <p className="text-xl text-[#7ec4b6] font-semibold">Loading...</p>
+            </div>
+        );
+    }
+
+    // if (!user) return null;
 
 
     const [isOpen, setIsOpen] = useState(false);
 
     const navItems = [
         { icon: "🔍", label: "Dashboard", href: "/dashboard" },
-        { icon: "🤖", label: "Generate Plan", href: "/dashboard/generate"},
+        { icon: "🤖", label: "Generate Plan", href: "/dashboard/generate" },
         { icon: "🚀", label: "Daily Challenge", href: "/dashboard/features" },
         { icon: "🧪", label: "Resources", href: "/dashboard/test-api" },
         { icon: "📊", label: "My plans ", href: "/dashboard/progress" },
@@ -108,8 +110,8 @@ export default function Sidebar() {
                                     transition={{ delay: index * 0.05 }}
                                     whileHover={{ scale: 1.02, x: 4 }}
                                     className={`flex items-center gap-4 px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl transition-all cursor-pointer ${isActive
-                                            ? "bg-white/70 shadow-md border border-white/80"
-                                            : "bg-white/40 hover:bg-white/60"
+                                        ? "bg-white/70 shadow-md border border-white/80"
+                                        : "bg-white/40 hover:bg-white/60"
                                         }`}
                                 >
                                     <span className="text-lg sm:text-xl">{item.icon}</span>
@@ -120,33 +122,33 @@ export default function Sidebar() {
                     })}
                 </nav>
 
-                
-                
-        {user &&  (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="mt-6 sm:mt-8 p-3 sm:p-4 bg-white/50 backdrop-blur-sm rounded-2xl"
-          >
-            <div className="flex items-center gap-2 sm:gap-3 mb-3">
-     
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-800 text-xs sm:text-sm truncate">{user.name}</p>
-                <p className="text-xs text-gray-600 truncate">{user.email}</p>
-              </div>
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => logout()}
-              className="w-full px-3 py-2 text-xs sm:text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-all"
-            >
-              Sign Out
-            </motion.button>
-          </motion.div>
-        )}
-    
+
+
+                {user && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 }}
+                        className="mt-6 sm:mt-8 p-3 sm:p-4 bg-white/50 backdrop-blur-sm rounded-2xl"
+                    >
+                        <div className="flex items-center gap-2 sm:gap-3 mb-3">
+
+                            <div className="flex-1 min-w-0">
+                                <p className="font-medium text-gray-800 text-xs sm:text-sm truncate">{user.name}</p>
+                                <p className="text-xs text-gray-600 truncate">{user.email}</p>
+                            </div>
+                        </div>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => logout()}
+                            className="w-full px-3 py-2 text-xs sm:text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-all"
+                        >
+                            Sign Out
+                        </motion.button>
+                    </motion.div>
+                )}
+
             </aside>
         </>
     );
