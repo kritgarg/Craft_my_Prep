@@ -8,4 +8,6 @@ userRouter.get('/:userId/plans', requireAuth, myPlansController.getUserPlans);
 
 export const planRouter = express.Router();
 planRouter.get('/:planId', requireAuth, myPlansController.getPlan);
-
+planRouter.patch('/:planId', requireAuth, myPlansController.updatePlan);
+planRouter.delete('/:planId', requireAuth, myPlansController.deletePlan);
+planRouter.patch('/:planId/steps/:stepId/complete', requireAuth, myPlansController.markStepComplete);

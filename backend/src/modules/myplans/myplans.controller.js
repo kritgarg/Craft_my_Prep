@@ -42,3 +42,78 @@ export const getPlan = async (req, res) => {
         res.status(500).json({ error: "Failed to fetch plan" });
     }
 };
+
+export const updatePlan = async (req, res) => {
+    try {
+        const planId = parseInt(req.params.planId, 10);
+        if (isNaN(planId)) {
+            return res.status(400).json({ error: "Invalid Plan ID" });
+        }
+
+        const existingPlan = await myPlansService.getPlanById(planId);
+        if (!existingPlan) {
+            return res.status(404).json({ error: "Plan not found" });
+        }
+
+        if (existingPlan.userId !== req.user.id) {
+            return res.status(403).json({ error: "Unauthorized to update this plan" });
+        }
+
+        const updatedPlan = await myPlansService.updatePlan(planId, req.body);
+        res.json({ plan: updatedPlan });
+    } catch (error) {
+        console.error("Update Plan Error:", error);
+        res.status(500).json({ error: "Failed to update plan" });
+    }
+};
+
+export const deletePlan = async (req, res) => {
+    try {
+        const planId = parseInt(req.params.planId, 10);
+        if (isNaN(planId)) {
+            return res.status(400).json({ error: "Invalid Plan ID" });
+        }
+
+        const existingPlan = await myPlansService.getPlanById(planId);
+        if (!existingPlan) {
+            return res.status(404).json({ error: "Plan not found" });
+        }
+
+        if (existingPlan.userId !== req.user.id) {
+            return res.status(403).json({ error: "Unauthorized to delete this plan" });
+        }
+
+        await myPlansService.deletePlan(planId);
+        res.json({ message: "Plan deleted successfully" });
+    } catch (error) {
+        console.error("Delete Plan Error:", error);
+        res.status(500).json({ error: "Failed to delete plan" });
+    }
+};
+
+export const markStepComplete = async (req, res) => {
+    try {
+        const planId = parseInt(req.params.planId, 10);
+        const stepId = parseInt(req.params.stepId, 10);
+
+        if (isNaN(planId) || isNaN(stepId)) {
+            return res.status(400).json({ error: "Invalid IDs" });
+        }
+
+        const existingPlan = await myPlansService.getPlanById(planId);
+        if (!existingPlan) {
+            return res.status(404).json({ error: "Plan not found" });
+        }
+
+        if (existingPlan.userId !== req.user.id) {
+            return res.status(403).json({ error: "Unauthorized" });
+        }
+
+        const updatedPlan = await myPlansService.markStepComplete(planId, stepId);
+        res.json({ plan: updatedPlan });
+    } catch (error) {
+        console.error("Complete Step Error:", error);
+        res.status(500).json({ error: "Failed to update step" });
+    }
+};
+

@@ -14,3 +14,46 @@ export const getPlanById = async (planId) => {
     });
     return plan;
 };
+
+export const updatePlan = async (planId, updates) => {
+    const plan = await prisma.plan.update({
+        where: { id: planId },
+        data: updates
+    });
+    return plan;
+};
+
+export const deletePlan = async (planId) => {
+    await prisma.plan.delete({
+        where: { id: planId }
+    });
+    return { message: "Plan deleted successfully" };
+};
+
+export const markStepComplete = async (planId, stepId) => {
+    const plan = await prisma.plan.findUnique({
+        where: { id: planId }
+    });
+
+    if (!plan) throw new Error("Plan not found");
+
+    let roadmap = plan.roadmap;
+
+    if (!Array.isArray(roadmap)) {
+        return plan;
+    }
+
+    const updatedRoadmap = roadmap.map(step => {
+        if (step.day == stepId) {
+            return { ...step, completed: true };
+        }
+        return step;
+    });
+    const updatedPlan = await prisma.plan.update({
+        where: { id: planId },
+        data: { roadmap: updatedRoadmap }
+    });
+
+    return updatedPlan;
+};
+
