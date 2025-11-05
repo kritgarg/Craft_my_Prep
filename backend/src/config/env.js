@@ -10,6 +10,7 @@ const ENV = {
     FRONTEND_URL: process.env.FRONTEND_URL,
     BACKEND_URL: process.env.BACKEND_URL,
     GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+    GROQ_API_KEY: process.env.GROQ_API_KEY,
 }
 
 export default ENV

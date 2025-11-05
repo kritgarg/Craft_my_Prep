@@ -6,6 +6,7 @@ import "./config/passport.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import generateRoutes from "./modules/generate/generate.routes.js";
 import { userRouter, planRouter } from "./modules/myplans/myplans.routes.js";
+import miniprojectsRouter from "./modules/miniprojects/miniprojects.routes.js";
 
 
 export const app = express();
@@ -19,7 +20,16 @@ app.use("/api/auth", authRoutes);
 app.use("/api/plans", generateRoutes);
 app.use("/api/plans", planRouter);
 app.use("/api/users", userRouter);
+app.use("/api/miniprojects", miniprojectsRouter);
 
 app.get("/", (req, res) => {
   res.json({ status: "CraftMyPrep Backend Running 🚀", time: new Date().toISOString() });
+});
+
+app.use((err, req, res, next) => {
+  console.error("Unhandled Error:", err.stack);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
 });

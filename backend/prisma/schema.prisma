@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/.prisma/client"
+  engineType = "library"
 }
 
 datasource db {
@@ -41,14 +42,16 @@ model Plan {
 }
 
 model MiniProject {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  title     String
-  details   String
-  difficulty String   // Easy | Medium | Hard
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  title       String
+  description String
+  steps       Json
+  isCompleted Boolean  @default(false)
+  difficulty  String?   // Easy | Medium | Hard
 
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Note {
