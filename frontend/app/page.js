@@ -68,7 +68,7 @@ export default function Home() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => window.location.href = '/generate'}
+                    onClick={() => window.location.href = '/dashboard/generate'}
                     className="px-8 py-4 rounded-full bg-[#7ec4b6] hover:bg-[#6eb4a6] text-white font-semibold text-lg shadow-xl transition-colors w-full sm:w-auto"
                   >
                     Generate My Plan
@@ -240,7 +240,7 @@ function Footer() {
             <ul className="space-y-2 text-gray-600">
               <li><Link href="/" className="hover:text-gray-900">Home</Link></li>
               <li><Link href="/dashboard" className="hover:text-gray-900">Dashboard</Link></li>
-              <li><Link href="/generate" className="hover:text-gray-900">Generate Plan</Link></li>
+              <li><Link href="/dashboard/generate" className="hover:text-gray-900">Generate Plan</Link></li>
             </ul>
           </div>
 

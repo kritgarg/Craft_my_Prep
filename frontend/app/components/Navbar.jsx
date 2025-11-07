@@ -85,7 +85,7 @@ export default function Navbar() {
                                     </motion.button>
                                 </Link>
 
-                                <Link href="/generate">
+                                <Link href="/dashboard/generate">
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}

@@ -9,13 +9,11 @@ export default function DashboardLayout({ children }) {
     const { user, loading } = useAuth();
     const router = useRouter();
 
-    /*
     useEffect(() => {
         if (!loading && !user) {
             router.push("/login");
         }
     }, [user, loading, router]);
-    */
 
     if (loading) {
         return (

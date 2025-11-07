@@ -89,7 +89,7 @@ export default function Sidebar() {
                 <Link href="/" onClick={() => setIsOpen(false)}>
                     <motion.div
                         whileHover={{ scale: 1.02 }}
-                        className="mb-6 sm:mb-8 flex items-center gap-3 cursor-pointer"
+                        className="mb-6 sm:mb-8 flex items-center gap-4 cursor-pointer"
                     >
                         <div className="w-10 h-10 rounded-xl bg-linear-to-br from-[#7ec4b6] to-[#6eb4a6] flex items-center justify-center shadow-lg">
                             <span className="text-xl">✨</span>
@@ -111,7 +111,7 @@ export default function Sidebar() {
                                     whileHover={{ scale: 1.02, x: 4 }}
                                     className={`flex items-center gap-4 px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl transition-all cursor-pointer ${isActive
                                         ? "bg-white/70 shadow-md border border-white/80"
-                                        : "bg-white/40 hover:bg-white/60"
+                                        : "bg-white/40 hover:bg-white/60 mb-2 "
                                         }`}
                                 >
                                     <span className="text-lg sm:text-xl">{item.icon}</span>
@@ -141,7 +141,10 @@ export default function Sidebar() {
                         <motion.button
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            onClick={() => logout()}
+                            onClick={() => {
+                                logout();
+                                router.push("/login");
+                            }}
                             className="w-full px-3 py-2 text-xs sm:text-sm bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-all"
                         >
                             Sign Out

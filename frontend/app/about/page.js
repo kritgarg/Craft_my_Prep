@@ -141,7 +141,7 @@ export default function About() {
                             transition={{ delay: 1.1 }}
                             className="mt-8 text-center pb-8"
                         >
-                            <Link href="/generate">
+                            <Link href="/dashboard">
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
