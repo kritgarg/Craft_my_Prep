@@ -9,6 +9,7 @@ import { userRouter, planRouter } from "./modules/myplans/myplans.routes.js";
 import miniprojectsRouter from "./modules/miniprojects/miniprojects.routes.js";
 import dailyChallengeRoutes from "./modules/daily-challenge/daily-challenge.routes.js";
 import companyQuestionsRoutes from "./modules/company-questions/company-questions.routes.js";
+import notesRouter from "./modules/notes/notes.routes.js";
 
 
 export const app = express();
@@ -25,6 +26,7 @@ app.use("/api/users", userRouter);
 app.use("/api/daily-challenge", dailyChallengeRoutes);
 app.use("/api/miniprojects", miniprojectsRouter);
 app.use("/api/company-questions", companyQuestionsRoutes);
+app.use("/api/notes", notesRouter);
 
 app.get("/", (req, res) => {
   res.json({ status: "CraftMyPrep Backend Running 🚀", time: new Date().toISOString() });
