@@ -23,6 +23,7 @@ model User {
   notes        Note[]
   miniProjects MiniProject[]
   challenges   Challenge[]
+  companyQuestions CompanyQuestion[]
 
   createdAt    DateTime @default(now())
 }
@@ -37,6 +38,18 @@ model Plan {
   projects  Json
   resources Json
 
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model CompanyQuestion {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  company   String
+  role      String?
+  question  String
+  answer    String   @db.Text
+  isSolved  Boolean  @default(false)
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
 }
