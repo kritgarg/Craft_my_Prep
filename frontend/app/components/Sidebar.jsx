@@ -46,7 +46,7 @@ export default function Sidebar() {
         { icon: "🏆", label: "Leaderboard", href: "/dashboard/leaderboard" },
         { icon: "💡", label: "Company Insights", href: "/dashboard/insights" },
         { icon: "⚡", label: "Mini Projects", href: "/dashboard/projects" },
-        { icon: "ℹ️", label: "Profile", href: "/dashboard/about" },
+        { icon: "ℹ️", label: "Profile", href: "/dashboard/profile" },
     ];
 
     return (
