@@ -43,8 +43,11 @@ export const markStepComplete = async (planId, stepId) => {
         return plan;
     }
 
-    const updatedRoadmap = roadmap.map(step => {
-        if (step.day == stepId) {
+    const updatedRoadmap = roadmap.map((step, index) => {
+        const currentStepId = step.day || (index + 1);
+        if (String(currentStepId) === String(stepId)) {
+            // Only allow marking as complete, never unmark
+            if (step.completed) return step;
             return { ...step, completed: true };
         }
         return step;
@@ -53,6 +56,16 @@ export const markStepComplete = async (planId, stepId) => {
         where: { id: planId },
         data: { roadmap: updatedRoadmap }
     });
+
+    const wasComplete = roadmap.every(s => s.completed);
+    const isComplete = updatedRoadmap.every(s => s.completed);
+
+    if (!wasComplete && isComplete) {
+        await prisma.user.update({
+            where: { id: plan.userId },
+            data: { xp: { increment: 20 } }
+        });
+    }
 
     return updatedPlan;
 };

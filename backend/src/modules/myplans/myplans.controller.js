@@ -94,10 +94,10 @@ export const deletePlan = async (req, res) => {
 export const markStepComplete = async (req, res) => {
     try {
         const planId = parseInt(req.params.planId, 10);
-        const stepId = parseInt(req.params.stepId, 10);
+        const stepId = req.params.stepId;
 
-        if (isNaN(planId) || isNaN(stepId)) {
-            return res.status(400).json({ error: "Invalid IDs" });
+        if (isNaN(planId)) {
+            return res.status(400).json({ error: "Invalid Plan ID" });
         }
 
         const existingPlan = await myPlansService.getPlanById(planId);
