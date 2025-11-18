@@ -62,6 +62,8 @@ model MiniProject {
   steps       Json
   isCompleted Boolean  @default(false)
   difficulty  String?   // Easy | Medium | Hard
+  timeline    String?
+  techStack   String?
 
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])

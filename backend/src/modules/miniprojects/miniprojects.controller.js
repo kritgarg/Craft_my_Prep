@@ -60,9 +60,31 @@ export const markProjectComplete = async (req, res) => {
             return res.status(403).json({ success: false, message: "Unauthorized" });
         }
 
+    }
+};
+
+export const deleteProject = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+
+        await miniProjectService.deleteProjectService(id, userId);
+
+        res.status(200).json({
+            success: true,
+            message: "Project deleted successfully"
+        });
+    } catch (error) {
+        console.error("Error deleting project:", error);
+        if (error.message === "Project not found") {
+            return res.status(404).json({ success: false, message: "Project not found" });
+        }
+        if (error.message === "Unauthorized") {
+            return res.status(403).json({ success: false, message: "Unauthorized" });
+        }
         res.status(500).json({
             success: false,
-            message: "Failed to update project",
+            message: "Failed to delete project",
             error: error.message
         });
     }

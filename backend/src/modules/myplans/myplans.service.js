@@ -57,16 +57,28 @@ export const markStepComplete = async (planId, stepId) => {
         data: { roadmap: updatedRoadmap }
     });
 
-    const wasComplete = roadmap.every(s => s.completed);
-    const isComplete = updatedRoadmap.every(s => s.completed);
+    return updatedPlan;
+};
 
-    if (!wasComplete && isComplete) {
-        await prisma.user.update({
-            where: { id: plan.userId },
-            data: { xp: { increment: 20 } }
-        });
+export const markPlanComplete = async (planId) => {
+    const plan = await prisma.plan.findUnique({
+        where: { id: planId }
+    });
+
+    if (!plan) throw new Error("Plan not found");
+
+    // Verify all steps are complete
+    const roadmap = plan.roadmap;
+    if (Array.isArray(roadmap) && !roadmap.every(s => s.completed)) {
+        throw new Error("All steps must be completed first");
     }
 
-    return updatedPlan;
+    // Award 70 XP
+    const user = await prisma.user.update({
+        where: { id: plan.userId },
+        data: { xp: { increment: 70 } }
+    });
+
+    return { plan, user };
 };
 

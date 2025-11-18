@@ -11,3 +11,4 @@ planRouter.get('/:planId', requireAuth, myPlansController.getPlan);
 planRouter.patch('/:planId', requireAuth, myPlansController.updatePlan);
 planRouter.delete('/:planId', requireAuth, myPlansController.deletePlan);
 planRouter.patch('/:planId/steps/:stepId/complete', requireAuth, myPlansController.markStepComplete);
+planRouter.patch('/:planId/complete', requireAuth, myPlansController.markPlanComplete);

@@ -117,3 +117,27 @@ export const markStepComplete = async (req, res) => {
     }
 };
 
+export const markPlanComplete = async (req, res) => {
+    try {
+        const planId = parseInt(req.params.planId, 10);
+        if (isNaN(planId)) {
+            return res.status(400).json({ error: "Invalid Plan ID" });
+        }
+
+        const existingPlan = await myPlansService.getPlanById(planId);
+        if (!existingPlan) {
+            return res.status(404).json({ error: "Plan not found" });
+        }
+
+        if (existingPlan.userId !== req.user.id) {
+            return res.status(403).json({ error: "Unauthorized" });
+        }
+
+        const result = await myPlansService.markPlanComplete(planId);
+        res.json(result);
+    } catch (error) {
+        console.error("Complete Plan Error:", error);
+        res.status(500).json({ error: error.message || "Failed to complete plan" });
+    }
+};
+

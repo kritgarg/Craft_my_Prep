@@ -46,7 +46,9 @@ Return raw JSON only.`;
             title: projectData.title,
             description: fullDescription,
             steps: projectData.steps,
-            difficulty: projectData.difficulty || level
+            difficulty: projectData.difficulty || level,
+            timeline: projectData.timeToComplete || timeToComplete,
+            techStack: projectData.techStack ? projectData.techStack.join(', ') : techStack
         }
     });
 
@@ -73,8 +75,34 @@ export const markProjectCompleteService = async (id, userId) => {
         throw new Error("Unauthorized");
     }
 
-    return await prisma.miniProject.update({
+    const updatedProject = await prisma.miniProject.update({
         where: { id: parseInt(id) },
         data: { isCompleted: true }
+    });
+
+    // Award 50 XP
+    await prisma.user.update({
+        where: { id: userId },
+        data: { xp: { increment: 50 } }
+    });
+
+    return updatedProject;
+};
+
+export const deleteProjectService = async (id, userId) => {
+    const project = await prisma.miniProject.findUnique({
+        where: { id: parseInt(id) }
+    });
+
+    if (!project) {
+        throw new Error("Project not found");
+    }
+
+    if (project.userId !== userId) {
+        throw new Error("Unauthorized");
+    }
+
+    return await prisma.miniProject.delete({
+        where: { id: parseInt(id) }
     });
 };
