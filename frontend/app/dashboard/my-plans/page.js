@@ -86,7 +86,7 @@ export default function MyPlans() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="w-full max-w-7xl mx-auto space-y-8 p-6"
+            className="w-full max-w-7xl mx-auto space-y-4 p-2"
         >
             <PlansHeader />
 

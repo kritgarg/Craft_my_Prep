@@ -100,7 +100,7 @@ export default function MiniProjects() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="w-full max-w-7xl mx-auto space-y-4 p-4"
+            className="w-full max-w-7xl mx-auto space-y-4 p-2"
         >
             <ProjectsHeader onCreateClick={() => setIsModalOpen(true)} />
 
