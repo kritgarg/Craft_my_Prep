@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }) {
     return (
         <div className="flex min-h-screen" style={{ background: "linear-gradient(180deg, #a8d5e2 0%, #e8f4f8 50%, #fef5e7 100%)" }}>
             <Sidebar />
-            <main className="flex-1 p-4 pt-20 xl:p-6 xl:pt-4 overflow-y-auto">
+            <main className="flex-1 p-4 pt-20 xl:p-6 xl:pt-18 overflow-y-auto">
                 {children}
             </main>
         </div>
