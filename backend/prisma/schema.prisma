@@ -90,3 +90,15 @@ model Challenge {
   date      DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
 }
+
+model Resource {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  type        String
+  url         String
+  tags        String[]
+  level       String
+  source      String
+  createdAt   DateTime @default(now())
+}

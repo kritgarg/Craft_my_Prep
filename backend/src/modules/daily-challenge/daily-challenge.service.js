@@ -112,4 +112,4 @@ export const getHistory = async (userId) => {
         where: { userId },
         orderBy: { date: "desc" },
     });
-};
+}; 

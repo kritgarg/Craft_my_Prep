@@ -12,6 +12,7 @@ import companyQuestionsRoutes from "./modules/company-questions/company-question
 import notesRouter from "./modules/notes/notes.routes.js";
 import profileRoutes from "./modules/profile/profile.routes.js";
 import leaderboardRoutes from "./modules/leaderboard/leaderboard.routes.js";
+import resourcesRoutes from "./modules/resources/resources.routes.js";
 
 
 export const app = express();
@@ -31,6 +32,7 @@ app.use("/api/company-questions", companyQuestionsRoutes);
 app.use("/api/notes", notesRouter);
 app.use("/api/profile", profileRoutes);
 app.use("/api/leaderboard", leaderboardRoutes);
+app.use("/api/resources", resourcesRoutes);
 
 app.get("/", (req, res) => {
   res.json({ status: "CraftMyPrep Backend Running 🚀", time: new Date().toISOString() });
