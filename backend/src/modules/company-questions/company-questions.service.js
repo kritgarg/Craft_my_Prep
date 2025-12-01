@@ -8,16 +8,46 @@ export const getQuestions = async (userId, company, role) => {
             orderBy: { createdAt: 'desc' }
         });
     }
-    const existing = await prisma.companyQuestion.findMany({
+
+    // 1. Check if CURRENT user already has questions for this role
+    const userQuestions = await prisma.companyQuestion.findMany({
         where: { userId, company, role: role || undefined },
         orderBy: { createdAt: 'desc' }
     });
 
-    if (existing.length > 0) {
-        return existing;
+    if (userQuestions.length > 0) {
+        return userQuestions;
     }
 
-    const prompt = `Generate 3 technical interview questions for a ${role || "Software Engineer"} role at ${company}.
+    // 2. Check if ANY user has questions for this role (Global Cache)
+    // We take the most recent set of questions generated for this company/role
+    const globalQuestions = await prisma.companyQuestion.findMany({
+        where: { company, role: role || undefined },
+        orderBy: { createdAt: 'desc' },
+        take: 10 // Assuming we generate batches of 10
+    });
+
+    if (globalQuestions.length > 0) {
+        // Copy these questions for the current user so they can track their own progress (isSolved)
+        const copiedQuestions = [];
+        for (const q of globalQuestions) {
+            // Avoid duplicates if somehow they exist
+            const saved = await prisma.companyQuestion.create({
+                data: {
+                    userId,
+                    company,
+                    role: q.role,
+                    question: q.question,
+                    answer: q.answer
+                }
+            });
+            copiedQuestions.push(saved);
+        }
+        return copiedQuestions;
+    }
+
+    // 3. If no questions exist in DB, generate new ones via Gemini
+    const prompt = `Generate 10 technical interview questions for a ${role || "Software Engineer"} role at ${company}.
     Return strictly valid JSON array of objects with fields:
     - 'question' (string)
     - 'answer' (string, brief solution/explanation)
@@ -36,9 +66,11 @@ export const getQuestions = async (userId, company, role) => {
         }
     } catch (error) {
         console.error("Gemini Generation Error:", error);
+        // Fallback if AI fails
         questionsData = [
-            { question: `What is special about ${company}'s culture?`, answer: "Research their values." },
-            { question: "Explain a challenging project.", answer: "STAR method." }
+            { question: `What are the core values of ${company}?`, answer: "Research the company's leadership principles." },
+            { question: "Describe a time you failed.", answer: "Use the STAR method." },
+            { question: "How do you handle conflict?", answer: "Focus on resolution and learning." }
         ];
     }
 
