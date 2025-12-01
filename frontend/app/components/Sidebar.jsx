@@ -23,8 +23,6 @@ export default function Sidebar() {
         );
     }
 
-    // if (!user) return null;
-
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -34,7 +32,7 @@ export default function Sidebar() {
         { icon: "📊", label: "My plans ", href: "/dashboard/my-plans" },
         { icon: "⚡", label: "Mini Projects", href: "/dashboard/projects" },
         { icon: "🚀", label: "Daily Challenge", href: "/dashboard/features" },
-        { icon: "🧪", label: "Resources", href: "/dashboard/test-api" },
+        { icon: "🧪", label: "Resources", href: "/dashboard/resources" },
         { icon: "💡", label: "Company Questions", href: "/dashboard/company-questions" },
         { icon: "🏆", label: "Leaderboard", href: "/dashboard/leaderboard" },
         { icon: "ℹ️", label: "Profile", href: "/dashboard/profile" },
