@@ -1,6 +1,7 @@
 
 
 import { generateFromGemini } from '../../utils/geminis.js';
+import { generateFromGroq } from '../../utils/groq.js';
 import { prisma } from '../../config/prisma.js';
 
 export const generatePreview = async (body) => {
@@ -8,7 +9,6 @@ export const generatePreview = async (body) => {
 
   if (!jobDescription && !skill) throw new Error("Job Description or Skill is required");
 
-  // Build prompt
   const prompt = `
     You are an expert career coach and technical interviewer.
     Analyze the following Job Description carefully to identify the key skills and requirements:
@@ -39,7 +39,6 @@ export const generatePreview = async (body) => {
     Do not include markdown formatting like \`\`\`json. Just the raw JSON string.
   `;
 
-  // Call Gemini
   const rawText = await generateFromGemini(prompt);
 
 
@@ -82,4 +81,25 @@ export const savePlan = async (userId, planData) => {
   });
 
   return newPlan;
+};
+
+export const analyzeJobDescription = async (jobDescription) => {
+  if (!jobDescription) throw new Error("Job Description is required");
+
+  const prompt = `
+        You are an expert technical recruiter.
+        Analyze the following Job Description and extract the top 5-7 most important technical skills required.
+        Job Description: "${jobDescription}"
+
+        Return strictly a JSON object with a single key "skills" containing an array of strings.
+        Example: { "skills": ["React", "Node.js", "SQL"] }
+    `;
+
+  try {
+    const result = await generateFromGroq(prompt);
+    return result.skills || [];
+  } catch (error) {
+    console.error("Groq Analysis Error:", error);
+    return ["Analysis Failed", "Try Again"];
+  }
 };

@@ -19,4 +19,15 @@ export const save = async (req, res) => {
         console.error("Save Plan Error:", error);
         res.status(400).json({ error: error.message });
     }
+};
+
+export const analyzeDemo = async (req, res) => {
+    try {
+        const { jobDescription } = req.body;
+        const skills = await generateService.analyzeJobDescription(jobDescription);
+        res.json({ skills });
+    } catch (error) {
+        console.error("Analyze Demo Error:", error);
+        res.status(400).json({ error: error.message });
+    }
 }; 
