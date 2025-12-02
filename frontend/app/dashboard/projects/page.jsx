@@ -39,8 +39,7 @@ export default function MiniProjects() {
         try {
             const res = await api.post("/miniprojects/generate", projectData);
             if (res.data.success) {
-                // Refresh projects list
-                await fetchProjects();
+                setProjects(prev => [res.data.data, ...prev]);
                 setIsModalOpen(false);
             }
         } catch (error) {
@@ -122,9 +121,9 @@ export default function MiniProjects() {
                         />
                     ))
                 ) : (
-                    <EmptyState 
-                        searchQuery={searchQuery} 
-                        onCreateClick={() => setIsModalOpen(true)} 
+                    <EmptyState
+                        searchQuery={searchQuery}
+                        onCreateClick={() => setIsModalOpen(true)}
                     />
                 )}
             </div>

@@ -7,8 +7,7 @@ import { api } from "../../lib/axios";
 import DashboardHeader from "./_components/DashboardHeader";
 import DailyChallengeCard from "./_components/DailyChallengeCard";
 import PlansCard from "./_components/PlansCard";
-import MiniProjectsCard from "./_components/MiniProjectsCard"; // Re-imported
-// import RecentActivityCard from "./_components/RecentActivityCard"; // Removed
+import MiniProjectsCard from "./_components/MiniProjectsCard"; 
 import QuoteCard from "./_components/QuoteCard";
 import StickyNotesSection from "./_components/StickyNotesSection";
 import LeaderboardCard from "./_components/LeaderboardCard";
@@ -20,7 +19,7 @@ export default function Dashboard() {
     const [dailyChallenge, setDailyChallenge] = useState(null);
     const [recentPlans, setRecentPlans] = useState([]);
     const [miniProjects, setMiniProjects] = useState([]);
-    const [leaderboardData, setLeaderboardData] = useState(null); // Added state for leaderboard
+    const [leaderboardData, setLeaderboardData] = useState(null); 
     const [notes, setNotes] = useState([]);
     const [quote, setQuote] = useState(null);
     const [article, setArticle] = useState(null);
@@ -37,9 +36,8 @@ export default function Dashboard() {
                 setRecentPlans(plansRes.data.plans.slice(0, 2));
 
                 const projectsRes = await api.get("/miniprojects");
-                setMiniProjects(projectsRes.data.projects || []);
+                setMiniProjects(projectsRes.data.data || []);
 
-                // Fetch leaderboard data
                 const leaderboardRes = await api.get("/leaderboard");
                 if (leaderboardRes.data.success) {
                     setLeaderboardData(leaderboardRes.data.data);

@@ -17,7 +17,8 @@ export default function ProjectCard({ project, itemVariants, onDelete }) {
 
     return (
         <motion.div
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             whileHover={{ y: -5 }}
             className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-white/60 hover:shadow-xl transition-all group relative overflow-hidden"
         >
@@ -57,7 +58,7 @@ export default function ProjectCard({ project, itemVariants, onDelete }) {
                             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                         </button>
                     </Link>
-                    <button 
+                    <button
                         onClick={(e) => {
                             e.preventDefault();
                             onDelete(project.id);
