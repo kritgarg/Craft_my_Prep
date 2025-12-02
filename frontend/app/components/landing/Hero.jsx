@@ -10,7 +10,7 @@ export default function Hero() {
                 <QuickLink href="#why" icon="❓">Why It Matters</QuickLink>
                 <QuickLink href="#demo" icon="📋">Live Demo</QuickLink>
                 <QuickLink href="/about" icon="ℹ️">About</QuickLink>
-                <QuickLink href="#projects" icon="📁">Mini Projects</QuickLink>
+                <QuickLink href="/dashboard/projects" icon="📁">Mini Projects</QuickLink>
             </div>
 
 
