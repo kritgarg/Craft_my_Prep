@@ -6,7 +6,7 @@ import ENV from "./env.js";
 
 const GITHUB_ID = ENV.GITHUB_CLIENT_ID;
 const GITHUB_SECRET = ENV.GITHUB_CLIENT_SECRET;
-const BACKEND_URL = ENV.BACKEND_URL;
+const BACKEND_URL = ENV.BACKEND_URL.replace(/\/$/, "");
 
 if (!GITHUB_ID || !GITHUB_SECRET) {
   console.warn("GitHub OAuth client id / secret not set in env.");
